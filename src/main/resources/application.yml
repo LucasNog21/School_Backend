@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: school
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/escola?useTimezone=true&serverTimezone=UTC
+    username: root
+    password: Luc@s2007
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+    show-sql: false
+    open-in-view: false
