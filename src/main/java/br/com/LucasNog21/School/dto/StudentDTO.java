@@ -1,47 +1,31 @@
-package br.com.LucasNog21.School.model;
+package br.com.LucasNog21.School.dto;
 
+import br.com.LucasNog21.School.model.Student;
+import br.com.LucasNog21.School.model.Subject;
 import jakarta.persistence.*;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name="student")
-public class Student {
+public class StudentDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name="name", nullable = false, length = 80)
     private String name;
-
-    @Column(name="registration", nullable = false, unique = true, length= 14)
     private int registration;
+    private String course;
+    private List<String> subjects;
 
-    @ManyToOne
-    @JoinColumn(name="id_course")
-    private Course course;
-
-    @ManyToMany
-    @JoinTable(
-            name = "student_subject",
-            joinColumns = @JoinColumn(name="student_id"),
-            inverseJoinColumns = @JoinColumn(name= "subject_id")
-    )
-    private List<Subject> subjects;
-
-    public Student() {
+    public StudentDTO() {
 
     }
 
-    public Student(Long id, String name, int registration, Course course, List<Subject> subjects) {
-        this.id = id;
-        this.name = name;
-        this.registration = registration;
-        this.course = course;
-        this.subjects = subjects;
+    public StudentDTO(Student student) {
+        BeanUtils.copyProperties(student, this);
+        this.course = student.getCourse().getName();
+        this.subjects = student.getSubjects().stream().map(Subject::getCode).toList();
+
     }
 
     public Long getId() {
@@ -68,25 +52,25 @@ public class Student {
         this.registration = registration;
     }
 
-    public Course getCourse() {
+    public String getCourse() {
         return course;
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(String course) {
         this.course = course;
     }
 
-    public List<Subject> getSubjects() {
+    public List<String> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(List<Subject> subjects) {
+    public void setSubjects(List<String> subjects) {
         this.subjects = subjects;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Student student)) return false;
+        if (!(o instanceof StudentDTO student)) return false;
         return registration == student.registration && Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(course, student.course) && Objects.equals(subjects, student.subjects);
     }
 

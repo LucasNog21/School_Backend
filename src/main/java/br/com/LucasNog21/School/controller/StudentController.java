@@ -1,6 +1,7 @@
 package br.com.LucasNog21.School.controller;
 
 
+import br.com.LucasNog21.School.dto.StudentDTO;
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.service.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class StudentController {
     private StudentServices service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Student> findAll() {
+    public List<StudentDTO> findAll() {
         return service.findAll();
     }
 

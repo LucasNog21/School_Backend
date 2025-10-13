@@ -3,7 +3,7 @@ spring:
     name: school
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/escola?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/school?useTimezone=true&serverTimezone=UTC
     username: root
     password: Luc@s2007
   jpa:

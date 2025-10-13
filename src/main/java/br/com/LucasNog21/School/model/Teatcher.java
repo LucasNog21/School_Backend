@@ -2,6 +2,7 @@ package br.com.LucasNog21.School.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,18 @@ public class Teatcher {
     private int registration;
 
     @ManyToMany(mappedBy="teatchers")
-    private Set<Subject> subjects;
+    private List<Subject> subjects;
+
+    public Teatcher() {
+
+    }
+
+    public Teatcher(Long id, String name, int registration, List<Subject> subjects) {
+        this.id = id;
+        this.name = name;
+        this.registration = registration;
+        this.subjects = subjects;
+    }
 
     public Long getId() {
         return id;
@@ -45,11 +57,11 @@ public class Teatcher {
         this.registration = registration;
     }
 
-    public Set<Subject> getSubjects() {
+    public List<Subject> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(Set<Subject> subjects) {
+    public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
     }
 }

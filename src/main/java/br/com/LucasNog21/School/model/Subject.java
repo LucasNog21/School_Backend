@@ -3,6 +3,7 @@ package br.com.LucasNog21.School.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,10 +27,23 @@ public class Subject {
             joinColumns = @JoinColumn(name="subject_id"),
             inverseJoinColumns = @JoinColumn(name= "teatcher_id")
     )
-    private Set<Teatcher> teatchers;
+    private List<Teatcher> teatchers;
 
     @ManyToMany(mappedBy="subjects")
-    private Set<Student> students;
+    private List<Student> students;
+
+    public Subject() {
+
+    }
+
+    public Subject(Long id, String code, Course course, List<Teatcher> teatchers, List<Student> students) {
+        this.id = id;
+        this.code = code;
+        this.course = course;
+        this.teatchers = teatchers;
+        this.students = students;
+    }
+
 
     public Long getId() {
         return id;
@@ -55,19 +69,19 @@ public class Subject {
         this.course = course;
     }
 
-    public Set<Teatcher> getTeatchers() {
+    public List<Teatcher> getTeatchers() {
         return teatchers;
     }
 
-    public void setTeatchers(Set<Teatcher> teatchers) {
+    public void setTeatchers(List<Teatcher> teatchers) {
         this.teatchers = teatchers;
     }
 
-    public Set<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 }

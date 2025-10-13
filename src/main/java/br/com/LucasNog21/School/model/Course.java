@@ -18,6 +18,16 @@ public class Course {
     @Column(name="code", nullable = false, length = 80, unique = true)
     private String code;
 
+    public Course() {
+
+    }
+
+    public Course(Long id, String name, String code) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+    }
+
     public Long getId() {
         return id;
     }

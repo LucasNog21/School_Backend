@@ -1,9 +1,11 @@
 package br.com.LucasNog21.School.service;
 
+import br.com.LucasNog21.School.dto.StudentDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.repository.StudentRepository;
 import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,24 +22,29 @@ public class StudentServices
     @Autowired
     StudentRepository repository;
 
-    public List<Student> findAll() {
+    @Transactional
+    public List<StudentDTO> findAll() {
         logger.info("Encontrando todos os alunos!");
 
-        return repository.findAll();
+        List<Student> students = repository.findAll();
+        return students.stream().map(StudentDTO::new).toList();
     }
 
+    @Transactional
     public Student findById(Long id) {
         logger.info("Encontrando um aluno!");
 
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
     }
 
+    @Transactional
     public Student create(Student student) {
         logger.info("Criando um aluno!");
 
         return repository.save(student);
     }
 
+    @Transactional
     public Student update(Student student) {
         logger.info("Atualizando um aluno!");
         Student entity = repository.findById(student.getId())
@@ -52,6 +59,7 @@ public class StudentServices
 
     }
 
+    @Transactional
     public void delete(long id) {
         logger.info("Deletando um aluno");
         Student entity = repository.findById(id)
