@@ -12,7 +12,7 @@ public class TeatcherDTO {
     private Long id;
     private String name;
     private int registration;
-    private List<String> subjects;
+    private List<Long> subjects;
 
     public TeatcherDTO(){
 
@@ -20,7 +20,7 @@ public class TeatcherDTO {
 
     public TeatcherDTO(Teatcher teatcher) {
         BeanUtils.copyProperties(teatcher, this);
-        this.subjects = teatcher.getSubjects().stream().map(Subject::getCode).toList();
+        this.subjects = teatcher.getSubjects().stream().map(Subject::getId).toList();
     }
 
     public Long getId() {
@@ -47,11 +47,11 @@ public class TeatcherDTO {
         this.registration = registration;
     }
 
-    public List<String> getSubjects() {
+    public List<Long> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(List<String> subjects) {
+    public void setSubjects(List<Long> subjects) {
         this.subjects = subjects;
     }
 }

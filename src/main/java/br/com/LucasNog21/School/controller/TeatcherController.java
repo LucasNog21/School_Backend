@@ -1,6 +1,9 @@
-/*package br.com.LucasNog21.School.controller;
+package br.com.LucasNog21.School.controller;
 
 
+import br.com.LucasNog21.School.dto.teatcher.TeatcherDTO;
+import br.com.LucasNog21.School.model.Teatcher;
+import br.com.LucasNog21.School.service.TeatcherServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +31,14 @@ public class TeatcherController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public TeatcherDTO create(@RequestBody TeatcherRequestDTO teatcherDTO) {
+    public TeatcherDTO create(@RequestBody TeatcherDTO teatcherDTO) {
         Teatcher teatcher = service.create(teatcherDTO);
         return new TeatcherDTO(teatcher);
     }
 
     @PutMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public TeatcherDTO update(@PathVariable("id") Long id ,@RequestBody TeatcherRequestDTO teatcherDTO) {
+    public TeatcherDTO update(@PathVariable("id") Long id , @RequestBody TeatcherDTO teatcherDTO) {
         return service.update(id, teatcherDTO);
     }
 
@@ -46,4 +49,4 @@ public class TeatcherController {
         return ResponseEntity.noContent().build();
     }
 }
-*/
+
