@@ -106,4 +106,11 @@ public class StudentServices
         studentRepository.delete(entity);
 
     }
+
+    @Transactional
+    public List<StudentDTO> findByCourseId(Long courseId) {
+        logger.info("Buscando alunos do curso com ID:" + courseId);
+        List<Student> students = studentRepository.findByCourseId(courseId);
+        return students.stream().map(StudentDTO::new).toList();
+    }
 }

@@ -1,7 +1,9 @@
 package br.com.LucasNog21.School.service;
 
+import br.com.LucasNog21.School.dto.StudentDTO;
 import br.com.LucasNog21.School.dto.TeatcherDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
+import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.model.Teatcher;
 import br.com.LucasNog21.School.model.Subject;
 import br.com.LucasNog21.School.repository.TeatcherRepository;
@@ -95,4 +97,12 @@ public class TeatcherServices
         teatcherRepository.delete(entity);
 
     }
+
+    @Transactional
+    public List<TeatcherDTO> findBySubjects_Id(Long id) {
+        logger.info("Buscando professores da disciplina com ID:" + id);
+        List<Teatcher> teatchers = teatcherRepository.findBySubjects_Id(id);
+        return teatchers.stream().map(TeatcherDTO::new).toList();
+    }
+
 }

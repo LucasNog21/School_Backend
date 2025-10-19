@@ -19,7 +19,10 @@ public class StudentController {
     private StudentServices service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<StudentDTO> findAll() {
+    public List<StudentDTO> findAll(@RequestParam(value="curso", required = false) Long courseId) {
+        if (courseId != null) {
+            return service.findByCourseId(courseId);
+        }
         return service.findAll();
     }
 
