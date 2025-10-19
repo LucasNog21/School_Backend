@@ -1,7 +1,7 @@
 package br.com.LucasNog21.School.controller;
 
 
-import br.com.LucasNog21.School.dto.teatcher.TeatcherDTO;
+import br.com.LucasNog21.School.dto.TeatcherDTO;
 import br.com.LucasNog21.School.model.Teatcher;
 import br.com.LucasNog21.School.service.TeatcherServices;
 import org.springframework.beans.factory.annotation.Autowired;

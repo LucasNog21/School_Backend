@@ -1,4 +1,4 @@
-package br.com.LucasNog21.School.dto.teatcher;
+package br.com.LucasNog21.School.dto;
 
 import br.com.LucasNog21.School.model.Subject;
 import br.com.LucasNog21.School.model.Teatcher;

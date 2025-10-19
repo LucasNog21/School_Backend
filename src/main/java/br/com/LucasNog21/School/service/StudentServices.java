@@ -1,6 +1,6 @@
 package br.com.LucasNog21.School.service;
 
-import br.com.LucasNog21.School.dto.student.StudentDTO;
+import br.com.LucasNog21.School.dto.StudentDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.model.Student;

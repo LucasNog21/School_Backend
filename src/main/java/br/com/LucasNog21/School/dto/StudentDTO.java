@@ -1,4 +1,4 @@
-package br.com.LucasNog21.School.dto.student;
+package br.com.LucasNog21.School.dto;
 
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.model.Subject;
