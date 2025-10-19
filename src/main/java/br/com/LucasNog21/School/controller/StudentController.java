@@ -32,8 +32,9 @@ public class StudentController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student create(@RequestBody StudentRequestDTO studentdDTO) {
-        return service.create(studentdDTO);
+    public StudentDTO create(@RequestBody StudentRequestDTO studentdDTO) {
+        Student student = service.create(studentdDTO);
+        return new StudentDTO(student);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
