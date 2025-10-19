@@ -1,7 +1,7 @@
 package br.com.LucasNog21.School.service;
 
-import br.com.LucasNog21.School.dto.StudentDTO;
-import br.com.LucasNog21.School.dto.StudentRequestDTO;
+import br.com.LucasNog21.School.dto.student.StudentDTO;
+import br.com.LucasNog21.School.dto.student.StudentRequestDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.model.Student;
@@ -9,7 +9,6 @@ import br.com.LucasNog21.School.model.Subject;
 import br.com.LucasNog21.School.repository.CourseRepository;
 import br.com.LucasNog21.School.repository.StudentRepository;
 import br.com.LucasNog21.School.repository.SubjectRepository;
-import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

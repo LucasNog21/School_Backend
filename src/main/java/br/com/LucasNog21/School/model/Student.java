@@ -1,12 +1,9 @@
 package br.com.LucasNog21.School.model;
 
-import br.com.LucasNog21.School.dto.StudentDTO;
 import jakarta.persistence.*;
-import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name="student")

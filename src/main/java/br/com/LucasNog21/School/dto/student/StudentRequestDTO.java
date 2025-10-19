@@ -1,4 +1,4 @@
-package br.com.LucasNog21.School.dto;
+package br.com.LucasNog21.School.dto.student;
 
 import java.util.ArrayList;
 import java.util.List;
