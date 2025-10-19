@@ -31,10 +31,11 @@ public class StudentServices
     }
 
     @Transactional
-    public Student findById(Long id) {
+    public StudentDTO findById(Long id) {
         logger.info("Encontrando um aluno!");
-
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
+        Student student = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
+        StudentDTO studentDTO = new StudentDTO(student);
+        return studentDTO;
     }
 
     @Transactional

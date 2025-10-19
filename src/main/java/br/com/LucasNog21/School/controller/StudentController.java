@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/alunos")
 public class StudentController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class StudentController {
 
     @GetMapping(value="/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student findById(@PathVariable("id") Long id) {
+    public StudentDTO findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
 
