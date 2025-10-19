@@ -1,7 +1,6 @@
 package br.com.LucasNog21.School.service;
 
 import br.com.LucasNog21.School.dto.student.StudentDTO;
-import br.com.LucasNog21.School.dto.student.StudentRequestDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.model.Student;
@@ -50,16 +49,16 @@ public class StudentServices
 
 
     @Transactional
-    public Student create(StudentRequestDTO studentDTO) {
+    public Student create(StudentDTO studentDTO) {
         logger.info("Criando um aluno!");
         Student student = new Student();
         student.setName(studentDTO.getName());
         student.setRegistration(studentDTO.getRegistration());
 
-        Course course = courseRepository.findById(studentDTO.getCourseId()).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+        Course course = courseRepository.findById(studentDTO.getCourse()).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
         student.setCourse(course);
 
-        List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjectId());
+        List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjects());
         student.setSubjects(subjects);
 
 
@@ -69,17 +68,17 @@ public class StudentServices
 
 
     @Transactional
-    public StudentDTO update(Long id, StudentRequestDTO studentDTO) {
+    public StudentDTO update(Long id, StudentDTO studentDTO) {
         logger.info("Atualizando um aluno!");
         Student entity = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
         entity.setName(studentDTO.getName());
         entity.setRegistration(studentDTO.getRegistration());
-        Course course = courseRepository.findById(studentDTO.getCourseId())
+        Course course = courseRepository.findById(studentDTO.getCourse())
                 .orElseThrow(() -> new ResourceNotFoundException("Curso não encontrado!"));
         entity.setCourse(course);
-        List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjectId());
+        List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjects());
         entity.setSubjects(subjects);
 
         Student updated = studentRepository.save(entity);
@@ -88,9 +87,9 @@ public class StudentServices
         updatedDTO.setId(updated.getId());
         updatedDTO.setName(updated.getName());
         updatedDTO.setRegistration(updated.getRegistration());
-        updatedDTO.setCourse(updated.getCourse().getName());
+        updatedDTO.setCourse(updated.getCourse().getId());
         updatedDTO.setSubjects(updated.getSubjects().stream()
-                .map(Subject::getCode)
+                .map(Subject::getId)
                 .toList());
 
         return updatedDTO;

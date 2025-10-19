@@ -12,8 +12,8 @@ public class StudentDTO {
     private Long id;
     private String name;
     private int registration;
-    private String course;
-    private List<String> subjects;
+    private Long course;
+    private List<Long> subjects;
 
     public StudentDTO() {
 
@@ -21,8 +21,8 @@ public class StudentDTO {
 
     public StudentDTO(Student student) {
         BeanUtils.copyProperties(student, this);
-        this.course = student.getCourse().getName();
-        this.subjects = student.getSubjects().stream().map(Subject::getCode).toList();
+        this.course = student.getCourse().getId();
+        this.subjects = student.getSubjects().stream().map(Subject::getId).toList();
 
     }
 
@@ -50,19 +50,19 @@ public class StudentDTO {
         this.registration = registration;
     }
 
-    public String getCourse() {
+    public Long getCourse() {
         return course;
     }
 
-    public void setCourse(String course) {
+    public void setCourse(Long course) {
         this.course = course;
     }
 
-    public List<String> getSubjects() {
+    public List<Long> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(List<String> subjects) {
+    public void setSubjects(List<Long> subjects) {
         this.subjects = subjects;
     }
 

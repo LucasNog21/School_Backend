@@ -1,4 +1,4 @@
-package br.com.LucasNog21.School.controller;
+/*package br.com.LucasNog21.School.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,3 +46,4 @@ public class TeatcherController {
         return ResponseEntity.noContent().build();
     }
 }
+*/
