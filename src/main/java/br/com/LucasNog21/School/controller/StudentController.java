@@ -2,6 +2,7 @@ package br.com.LucasNog21.School.controller;
 
 
 import br.com.LucasNog21.School.dto.StudentDTO;
+import br.com.LucasNog21.School.dto.StudentRequestDTO;
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.service.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class StudentController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student create(@RequestBody Student student) {
-        return service.create(student);
+    public Student create(@RequestBody StudentRequestDTO studentdDTO) {
+        return service.create(studentdDTO);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,

@@ -1,6 +1,8 @@
 package br.com.LucasNog21.School.model;
 
+import br.com.LucasNog21.School.dto.StudentDTO;
 import jakarta.persistence.*;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,6 +45,7 @@ public class Student {
         this.course = course;
         this.subjects = subjects;
     }
+
 
     public Long getId() {
         return id;

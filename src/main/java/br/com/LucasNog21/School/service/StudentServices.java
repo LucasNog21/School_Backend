@@ -1,9 +1,14 @@
 package br.com.LucasNog21.School.service;
 
 import br.com.LucasNog21.School.dto.StudentDTO;
+import br.com.LucasNog21.School.dto.StudentRequestDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
+import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.model.Student;
+import br.com.LucasNog21.School.model.Subject;
+import br.com.LucasNog21.School.repository.CourseRepository;
 import br.com.LucasNog21.School.repository.StudentRepository;
+import br.com.LucasNog21.School.repository.SubjectRepository;
 import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,35 +25,54 @@ public class StudentServices
     private Logger logger = Logger.getLogger(StudentServices.class.getName());
 
     @Autowired
-    StudentRepository repository;
+    StudentRepository studentRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
+
+    @Autowired
+    SubjectRepository subjectRepository;
 
     @Transactional
     public List<StudentDTO> findAll() {
         logger.info("Encontrando todos os alunos!");
 
-        List<Student> students = repository.findAll();
+        List<Student> students = studentRepository.findAll();
         return students.stream().map(StudentDTO::new).toList();
     }
 
     @Transactional
     public StudentDTO findById(Long id) {
         logger.info("Encontrando um aluno!");
-        Student student = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
+        Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
         StudentDTO studentDTO = new StudentDTO(student);
         return studentDTO;
     }
 
-    @Transactional
-    public Student create(Student student) {
-        logger.info("Criando um aluno!");
 
-        return repository.save(student);
+    @Transactional
+    public Student create(StudentRequestDTO studentDTO) {
+        logger.info("Criando um aluno!");
+        Student student = new Student();
+        student.setName(studentDTO.getName());
+        student.setRegistration(studentDTO.getRegistration());
+
+        Course course = courseRepository.findById(studentDTO.getCourseId()).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+        student.setCourse(course);
+
+        List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjectId());
+        student.setSubjects(subjects);
+
+
+        return studentRepository.save(student);
     }
+
+
 
     @Transactional
     public Student update(Student student) {
         logger.info("Atualizando um aluno!");
-        Student entity = repository.findById(student.getId())
+        Student entity = studentRepository.findById(student.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
         entity.setName(student.getName());
@@ -56,16 +80,16 @@ public class StudentServices
         entity.setCourse(student.getCourse());
         entity.setSubjects(student.getSubjects());
 
-        return repository.save(student);
+        return studentRepository.save(student);
 
     }
 
     @Transactional
     public void delete(long id) {
         logger.info("Deletando um aluno");
-        Student entity = repository.findById(id)
+        Student entity = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse id!"));
-        repository.delete(entity);
+        studentRepository.delete(entity);
 
     }
 }
