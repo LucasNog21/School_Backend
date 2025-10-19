@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TeatcherRepository extends JpaRepository<Teatcher, Long> {
     List<Teatcher> findBySubjects_Id(Long id);
+    List<Teatcher> findByNameContaining(String name);
 }

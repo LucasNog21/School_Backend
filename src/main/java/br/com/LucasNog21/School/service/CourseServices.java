@@ -64,4 +64,10 @@ public class CourseServices
         courseRepository.delete(entity);
 
     }
+
+    @Transactional
+    public List<Course> findByNameContaining(String name) {
+        logger.info("Buscando cursos pelo nome");
+        return courseRepository.findByNameContaining(name);
+    }
 }

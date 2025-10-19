@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
@@ -51,4 +52,14 @@ public class StudentController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value="/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<StudentDTO> search(
+            @RequestParam(value="nome", required = false) String name,
+            @RequestParam(value = "matricula", required = false) String registration,
+            @RequestParam(value = "curso", required = false) Long course) {
+        return service.search(name, registration, course);
+
+    }
+
 }

@@ -113,4 +113,11 @@ public class StudentServices
         List<Student> students = studentRepository.findByCourseId(courseId);
         return students.stream().map(StudentDTO::new).toList();
     }
+
+    @Transactional
+    public List<StudentDTO> search(String name, String registration, Long course) {
+        logger.info("Buscando alunos com matricula igual a: " + registration + " e nome igual a: " + name);
+        List<Student> students = studentRepository.search(name, registration, course);
+        return students.stream().map(StudentDTO::new).toList();
+    }
 }

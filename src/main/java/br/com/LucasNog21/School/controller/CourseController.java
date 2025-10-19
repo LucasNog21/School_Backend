@@ -17,7 +17,10 @@ public class CourseController {
     private CourseServices service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Course> findAll() {
+    public List<Course> findAll(@RequestParam(value="nome", required = false) String name) {
+        if (name != null) {
+            return service.findByNameContaining(name);
+        }
         return service.findAll();
     }
 

@@ -19,9 +19,12 @@ public class TeatcherController {
     private TeatcherServices service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<TeatcherDTO> findAll(@RequestParam(value="disciplina", required = false) Long id ) {
+    public List<TeatcherDTO> findAll(@RequestParam(value="disciplina", required = false) Long id, @RequestParam(value="nome", required = false) String name) {
         if (id != null) {
             return service.findBySubjects_Id(id);
+        }
+        if (name != null) {
+            return service.findByNameContaining(name);
         }
         return service.findAll();
     }

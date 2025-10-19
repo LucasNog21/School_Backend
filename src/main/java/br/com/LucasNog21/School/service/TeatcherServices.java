@@ -105,4 +105,11 @@ public class TeatcherServices
         return teatchers.stream().map(TeatcherDTO::new).toList();
     }
 
+    @Transactional
+    public List<TeatcherDTO> findByNameContaining(String name) {
+        logger.info("Buscando professores com o nome:" + name);
+        List<Teatcher> teatchers = teatcherRepository.findByNameContaining(name);
+        return teatchers.stream().map(TeatcherDTO::new).toList();
+    }
+
 }
