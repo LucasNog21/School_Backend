@@ -70,17 +70,33 @@ public class StudentServices
 
 
     @Transactional
-    public Student update(Student student) {
+    public StudentDTO update(Long id, StudentRequestDTO studentDTO) {
         logger.info("Atualizando um aluno!");
-        Student entity = studentRepository.findById(student.getId())
+        Student entity = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
-        entity.setName(student.getName());
-        entity.setRegistration(student.getRegistration());
-        entity.setCourse(student.getCourse());
-        entity.setSubjects(student.getSubjects());
+        entity.setName(studentDTO.getName());
+        entity.setRegistration(studentDTO.getRegistration());
+        Course course = courseRepository.findById(studentDTO.getCourseId())
+                .orElseThrow(() -> new ResourceNotFoundException("Curso não encontrado!"));
+        entity.setCourse(course);
+        List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjectId());
+        entity.setSubjects(subjects);
 
-        return studentRepository.save(student);
+        Student updated = studentRepository.save(entity);
+
+        StudentDTO updatedDTO = new StudentDTO();
+        updatedDTO.setId(updated.getId());
+        updatedDTO.setName(updated.getName());
+        updatedDTO.setRegistration(updated.getRegistration());
+        updatedDTO.setCourse(updated.getCourse().getName());
+        updatedDTO.setSubjects(updated.getSubjects().stream()
+                .map(Subject::getCode)
+                .toList());
+
+        return updatedDTO;
+
+
 
     }
 

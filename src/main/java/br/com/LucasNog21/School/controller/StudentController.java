@@ -37,10 +37,10 @@ public class StudentController {
         return new StudentDTO(student);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PutMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student update(@RequestBody Student student) {
-        return service.update(student);
+    public StudentDTO update(@PathVariable("id") Long id ,@RequestBody StudentRequestDTO studentDTO) {
+        return service.update(id, studentDTO);
     }
 
     @DeleteMapping(value = "/{id}")
