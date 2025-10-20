@@ -13,7 +13,7 @@ import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
-@RequestMapping("/alunos")
+@RequestMapping("/api/v1/alunos")
 public class StudentController {
 
     @Autowired

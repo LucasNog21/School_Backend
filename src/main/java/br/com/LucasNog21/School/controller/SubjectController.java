@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/disciplinas")
+@RequestMapping("/api/v1/disciplinas")
 public class SubjectController {
 
     @Autowired
