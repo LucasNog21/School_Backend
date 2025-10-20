@@ -18,7 +18,7 @@ public class User implements UserDetails, Serializable {
     private Long id;
 
     @Column(name = "user_name", unique = true)
-    private String username;
+    private String userName;
 
     @Column(name = "full_name")
     private String fullName;
@@ -69,7 +69,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.userName;
     }
 
     @Override
@@ -82,6 +82,16 @@ public class User implements UserDetails, Serializable {
         return this.accountNonLocked;
     }
 
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
     public Long getId() {
         return id;
     }
@@ -90,8 +100,8 @@ public class User implements UserDetails, Serializable {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String userName) {
+        this.userName = userName;
     }
 
     public String getFullName() {
@@ -144,16 +154,6 @@ public class User implements UserDetails, Serializable {
 
     public void setPermissions(List<Permission> permissions) {
         this.permissions = permissions;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
     }
 
 }
