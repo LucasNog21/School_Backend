@@ -1,7 +1,6 @@
 package br.com.LucasNog21.School.controller.docs;
 
 import br.com.LucasNog21.School.dto.StudentDTO;
-import br.com.LucasNog21.School.model.Student;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -90,5 +89,20 @@ public interface StudentControllerDocs {
             }
     )
     ResponseEntity<?> delete(@PathVariable("id") Long id);
+
+    @Operation(summary = "Procura um aluno por nome, matrícula e curso",
+            description = "Procura um aluno por nome, matrícula e curso",
+            tags = {"Alunos"},
+            responses = {
+                    @ApiResponse(
+                            description = "No Content",
+                            responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+            }
+    )
+    List<StudentDTO> search(String name, String registration, Long courseId);
 }
 

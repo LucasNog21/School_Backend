@@ -59,6 +59,7 @@ public class StudentController implements StudentControllerDocs {
     }
 
     @GetMapping(value="/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     public List<StudentDTO> search(
             @RequestParam(value="nome", required = false) String name,
             @RequestParam(value = "matricula", required = false) String registration,

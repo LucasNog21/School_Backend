@@ -1,5 +1,6 @@
 package br.com.LucasNog21.School.service;
 
+import br.com.LucasNog21.School.dto.CourseDTO;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
 import br.com.LucasNog21.School.repository.CourseRepository;
@@ -23,37 +24,53 @@ public class CourseServices
 
 
     @Transactional
-    public List<Course> findAll() {
+    public List<CourseDTO> findAll() {
         logger.info("Encontrando todos os cursos!");
 
-        return courseRepository.findAll();
+        List<Course> courses = courseRepository.findAll();
+        return courses.stream().map(CourseDTO::new).toList();
     }
 
     @Transactional
-    public Course findById(Long id) {
-        logger.info("Encontrando um cursos!");
-        return courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
+    public CourseDTO findById(Long id) {
+        logger.info("Encontrando um curso!");
+        Course course = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
+        CourseDTO courseDTO = new CourseDTO(course);
+        return courseDTO;
     }
 
 
     @Transactional
-    public Course create(Course course) {
+    public Course create(CourseDTO courseDTO) {
         logger.info("Criando um curso!");
+        Course course = new  Course();
+        course.setName(courseDTO.getName());
+        course.setCode(courseDTO.getCode());
+
         return courseRepository.save(course);
+
     }
 
 
 
     @Transactional
-    public Course update(Long id, Course course) {
+    public CourseDTO update(Long id, CourseDTO courseDTO) {
         logger.info("Atualizando um curso!");
         Course entity = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
-        entity.setName(course.getName());
-        entity.setCode(course.getCode());
+        entity.setName(courseDTO.getName());
+        entity.setCode(courseDTO.getCode());
 
-        return courseRepository.save(entity);
+        Course updated = courseRepository.save(entity);
+
+        CourseDTO updatedDTO = new CourseDTO();
+        updatedDTO.setId(updated.getId());
+        updatedDTO.setName(updated.getName());
+        updatedDTO.setCode(updated.getCode());
+
+        return updatedDTO;
+
     }
 
     @Transactional
@@ -66,7 +83,7 @@ public class CourseServices
     }
 
     @Transactional
-    public List<Course> findByNameContaining(String name) {
+    public List<CourseDTO> findByNameContaining(String name) {
         logger.info("Buscando cursos pelo nome");
         return courseRepository.findByNameContaining(name);
     }

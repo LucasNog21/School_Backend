@@ -1,6 +1,7 @@
 package br.com.LucasNog21.School.controller;
 
 
+import br.com.LucasNog21.School.controller.docs.TeatcherControllerDocs;
 import br.com.LucasNog21.School.dto.TeatcherDTO;
 import br.com.LucasNog21.School.model.Teatcher;
 import br.com.LucasNog21.School.service.TeatcherServices;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/professores")
-public class TeatcherController {
+public class TeatcherController implements TeatcherControllerDocs {
 
     @Autowired
     private TeatcherServices service;

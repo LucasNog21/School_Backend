@@ -1,7 +1,6 @@
 package br.com.LucasNog21.School.controller.docs;
 
-import br.com.LucasNog21.School.dto.CourseDTO;
-import br.com.LucasNog21.School.model.Course;
+import br.com.LucasNog21.School.dto.SubjectDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 
-public interface CourseControllerDocs {
-    @Operation(summary = "Encontrar todos os cursos", description = "Encontrar todos os cursos", tags = {"Cursos"}, responses = {
+public interface SubjectControllerDocs {
+    @Operation(summary = "Encontrar todas as disciplinas", description = "Encontrar todas as disciplinas", tags = {"Disciplinas"}, responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = {
                     @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = CourseDTO.class))
+                            array = @ArraySchema(schema = @Schema(implementation = SubjectDTO.class))
                     )
             }),
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -30,42 +29,42 @@ public interface CourseControllerDocs {
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
-    List<CourseDTO> findAll(String name);
+    List<SubjectDTO> findAll();
 
-    @Operation(summary = "Encontrar um curso por Id", description = "Encontrar um curso por Id", tags = {"Cursos"}, responses = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = CourseDTO.class))),
+    @Operation(summary = "Encontrar uma disciplina por Id", description = "Encontrar uma disciplina por Id", tags = {"Disciplinas"}, responses = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = SubjectDTO.class))),
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
-    CourseDTO findById(Long id);
+    SubjectDTO findById(Long id);
 
-    @Operation(summary = "Criar um novo curso",
-            description = "Adicionar um curso passando uma representação JSON do objeto",
-            tags = {"Cursos"},
+    @Operation(summary = "Criar uma nova disciplina",
+            description = "Adicionar uma disciplina passando uma representação JSON do objeto",
+            tags = {"Disciplinas"},
             responses = {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = CourseDTO.class))
+                            content = @Content(schema = @Schema(implementation = SubjectDTO.class))
                     ),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    CourseDTO create(@RequestBody CourseDTO course);
+    SubjectDTO create(@RequestBody SubjectDTO student);
 
-    @Operation(summary = "Atualiza um curso",
-            description = "Atualiza um curso passando uma representação JSON do objeto",
-            tags = {"Cursos"},
+    @Operation(summary = "Atualiza uma disciplina",
+            description = "Atualiza uma disciplina passando uma representação JSON do objeto",
+            tags = {"Disciplinas"},
             responses = {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = CourseDTO.class))
+                            content = @Content(schema = @Schema(implementation = SubjectDTO.class))
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -74,11 +73,11 @@ public interface CourseControllerDocs {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    CourseDTO update(@PathVariable("id") Long id, @RequestBody CourseDTO book);
+    SubjectDTO update(@PathVariable("id") Long id, @RequestBody SubjectDTO student);
 
-    @Operation(summary = "Deleta um curso",
-            description = "Deleta um curso específico por ID",
-            tags = {"Cursos"},
+    @Operation(summary = "Deleta uma disciplina",
+            description = "Deleta uma disciplina específico por ID",
+            tags = {"Disciplinas"},
             responses = {
                     @ApiResponse(
                             description = "No Content",
@@ -90,4 +89,6 @@ public interface CourseControllerDocs {
             }
     )
     ResponseEntity<?> delete(@PathVariable("id") Long id);
+
 }
+

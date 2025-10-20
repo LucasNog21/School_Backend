@@ -1,6 +1,7 @@
 package br.com.LucasNog21.School.controller;
 
 
+import br.com.LucasNog21.School.controller.docs.SubjectControllerDocs;
 import br.com.LucasNog21.School.dto.SubjectDTO;
 import br.com.LucasNog21.School.model.Subject;
 import br.com.LucasNog21.School.service.SubjectServices;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/disciplinas")
-public class SubjectController {
+public class SubjectController implements SubjectControllerDocs {
 
     @Autowired
     private SubjectServices service;

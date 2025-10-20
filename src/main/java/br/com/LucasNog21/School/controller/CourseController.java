@@ -1,6 +1,7 @@
 package br.com.LucasNog21.School.controller;
 
 import br.com.LucasNog21.School.controller.docs.CourseControllerDocs;
+import br.com.LucasNog21.School.dto.CourseDTO;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.service.CourseServices;
 
@@ -23,7 +24,7 @@ public class CourseController implements CourseControllerDocs {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 
     @Override
-    public List<Course> findAll(@RequestParam(value="nome", required = false) String name) {
+    public List<CourseDTO> findAll(@RequestParam(value="nome", required = false) String name) {
         if (name != null) {
             return service.findByNameContaining(name);
         }
@@ -33,22 +34,23 @@ public class CourseController implements CourseControllerDocs {
     @GetMapping(value="/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public Course findById(@PathVariable("id") Long id) {
+    public CourseDTO findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public Course create(@RequestBody Course course) {
-        return service.create(course);
+    public CourseDTO create(@RequestBody CourseDTO courseDTO) {
+        Course course = service.create(courseDTO);
+        return new CourseDTO(course);
     }
 
     @PutMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public Course update(@PathVariable("id") Long id ,@RequestBody Course course) {
-        return service.update(id, course);
+    public CourseDTO update(@PathVariable("id") Long id ,@RequestBody CourseDTO courseDTO) {
+        return service.update(id, courseDTO);
     }
 
     @DeleteMapping(value = "/{id}")
