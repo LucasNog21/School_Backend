@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table(name="permission")
+@Table(name = "permission")
 public class Permission implements GrantedAuthority, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,5 +38,17 @@ public class Permission implements GrantedAuthority, Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Permission that = (Permission) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getDescription(), that.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDescription());
     }
 }

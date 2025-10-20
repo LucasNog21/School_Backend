@@ -8,10 +8,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,24 +32,23 @@ public class User implements UserDetails, Serializable {
     @Column(name = "account_non_expired")
     private Boolean accountNonExpired;
 
-    @Column(name = "credentials_non_expired")
-    private Boolean credentialsNonExpired;
-
     @Column(name = "account_non_locked")
     private Boolean accountNonLocked;
+
+    @Column(name = "credentials_non_expired")
+    private Boolean credentialsNonExpired;
 
     @Column
     private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_permission",
-    joinColumns = {@JoinColumn(name = "id_user")},
-    inverseJoinColumns = {@JoinColumn(name = "id_permission")})
+            joinColumns = {@JoinColumn (name = "id_user")},
+            inverseJoinColumns = {@JoinColumn (name = "id_permission")}
+    )
     private List<Permission> permissions;
 
-    public User() {
-
-    }
+    public User() {}
 
     public List<String> getRoles(){
         List<String> roles = new ArrayList<>();
@@ -55,7 +57,6 @@ public class User implements UserDetails, Serializable {
         }
         return roles;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -100,7 +101,7 @@ public class User implements UserDetails, Serializable {
         this.id = id;
     }
 
-    public void setUsername(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -124,20 +125,20 @@ public class User implements UserDetails, Serializable {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public Boolean getCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
-
-    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
     public Boolean getAccountNonLocked() {
         return accountNonLocked;
     }
 
     public void setAccountNonLocked(Boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+    }
+
+    public Boolean getCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+
+    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
     }
 
     public Boolean getEnabled() {
@@ -156,4 +157,15 @@ public class User implements UserDetails, Serializable {
         this.permissions = permissions;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getFullName(), user.getFullName()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(isAccountNonExpired(), user.isAccountNonExpired()) && Objects.equals(isAccountNonLocked(), user.isAccountNonLocked()) && Objects.equals(isCredentialsNonExpired(), user.isCredentialsNonExpired()) && Objects.equals(isEnabled(), user.isEnabled()) && Objects.equals(getPermissions(), user.getPermissions());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getFullName(), getPassword(), isAccountNonExpired(), isAccountNonLocked(), isCredentialsNonExpired(), isEnabled(), getPermissions());
+    }
 }
