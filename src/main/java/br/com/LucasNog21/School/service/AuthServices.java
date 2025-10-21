@@ -70,7 +70,7 @@ public class AuthServices {
 
         if (user == null) throw new RequiredObjectIsNullException();
 
-        logger.info("Criando um novo usuário!");
+        logger.info("Creating one new User!");
         var entity = new User();
         entity.setFullName(user.getFullname());
         entity.setUserName(user.getUsername());
