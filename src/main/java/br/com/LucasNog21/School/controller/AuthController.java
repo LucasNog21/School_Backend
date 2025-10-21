@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Endpoint de autenticação")
 @RestController
 @RequestMapping("/auth")
 public class AuthController implements AuthControllerDocs {
