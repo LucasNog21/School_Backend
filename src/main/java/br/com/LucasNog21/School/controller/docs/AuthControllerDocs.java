@@ -10,7 +10,7 @@ public interface AuthControllerDocs {
 
     @Operation(
             summary = "Autentica um usuário e retorna um token",
-            description = "Valida credenciais de usuário e gera um token para autenticaçaõ",
+            description = "Valida credenciais de usuário e gera um token para autenticação",
             tags = {"Autenticação"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200", content = @Content),
@@ -39,7 +39,7 @@ public interface AuthControllerDocs {
     @Operation(
             summary = "Cria um novo usuário",
             description = "Registra um novo usuário com as credenciais passadas",
-            tags = {"Gestão de usuário"},
+            tags = {"Autenticação"},
             responses = {
                     @ApiResponse(description = "Created", responseCode = "201", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

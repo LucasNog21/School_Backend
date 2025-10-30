@@ -22,7 +22,7 @@ spring:
 spring-doc:
   paths-to-match:
     - /api/v1/**/**
-    - /auth/**
+    - /autenticacao/**
   swagger-ui:
     use-root-path: true
 

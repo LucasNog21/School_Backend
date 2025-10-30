@@ -12,13 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/autenticacao")
+@Tag(name = "Autenticação", description = "Endpoints de autenticação e gestão de tokens")
 public class AuthController implements AuthControllerDocs {
 
     @Autowired
     AuthServices service;
 
-    @PostMapping("/signin")
+    @PostMapping("/entrar")
     @Override
     public ResponseEntity<?> signin(@RequestBody AccountCredentialsDTO credentials) {
         if (credentialsIsInvalid(credentials))return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
@@ -28,7 +29,7 @@ public class AuthController implements AuthControllerDocs {
         return  ResponseEntity.ok().body(token);
     }
 
-    @PutMapping("/refresh/{username}")
+    @PutMapping("/atualizar/{username}")
     @Override
     public ResponseEntity<?> refreshToken(
             @PathVariable("username") String username,
@@ -39,7 +40,7 @@ public class AuthController implements AuthControllerDocs {
         return  ResponseEntity.ok().body(token);
     }
 
-    @PostMapping(value = "/createUser",
+    @PostMapping(value = "/usuario",
             consumes = {
                     MediaType.APPLICATION_JSON_VALUE},
             produces = {

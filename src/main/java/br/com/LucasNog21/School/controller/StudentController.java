@@ -58,7 +58,7 @@ public class StudentController implements StudentControllerDocs {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value="/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/procurar", produces = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public List<StudentDTO> search(
             @RequestParam(value="nome", required = false) String name,
