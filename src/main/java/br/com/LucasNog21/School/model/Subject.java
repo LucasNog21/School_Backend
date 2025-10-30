@@ -2,11 +2,14 @@ package br.com.LucasNog21.School.model;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Data @NoArgsConstructor
 @Table(name="subject")
 public class Subject {
 
@@ -32,56 +35,4 @@ public class Subject {
     @ManyToMany(mappedBy="subjects")
     private List<Student> students;
 
-    public Subject() {
-
-    }
-
-    public Subject(Long id, String code, Course course, List<Teatcher> teatchers, List<Student> students) {
-        this.id = id;
-        this.code = code;
-        this.course = course;
-        this.teatchers = teatchers;
-        this.students = students;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public List<Teatcher> getTeatchers() {
-        return teatchers;
-    }
-
-    public void setTeatchers(List<Teatcher> teatchers) {
-        this.teatchers = teatchers;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 }

@@ -2,11 +2,17 @@ package br.com.LucasNog21.School.dto;
 
 import br.com.LucasNog21.School.model.Subject;
 import br.com.LucasNog21.School.model.Teatcher;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 
 import java.util.List;
 
+
+@Getter @Setter
+@NoArgsConstructor
 public class TeatcherDTO {
 
     private Long id;
@@ -14,44 +20,9 @@ public class TeatcherDTO {
     private int registration;
     private List<Long> subjects;
 
-    public TeatcherDTO(){
-
-    }
-
     public TeatcherDTO(Teatcher teatcher) {
         BeanUtils.copyProperties(teatcher, this);
         this.subjects = teatcher.getSubjects().stream().map(Subject::getId).toList();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRegistration() {
-        return registration;
-    }
-
-    public void setRegistration(int registration) {
-        this.registration = registration;
-    }
-
-    public List<Long> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Long> subjects) {
-        this.subjects = subjects;
-    }
 }
