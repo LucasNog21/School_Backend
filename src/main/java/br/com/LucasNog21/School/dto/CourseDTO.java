@@ -3,6 +3,7 @@ package br.com.LucasNog21.School.dto;
 import br.com.LucasNog21.School.model.Course;
 import org.springframework.beans.BeanUtils;
 
+
 public class CourseDTO {
 
     private Long id;

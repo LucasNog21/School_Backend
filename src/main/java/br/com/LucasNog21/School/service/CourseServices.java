@@ -43,7 +43,7 @@ public class CourseServices
     @Transactional
     public Course create(CourseDTO courseDTO) {
         logger.info("Criando um curso!");
-        Course course = new  Course();
+        Course course = new Course();
         course.setName(courseDTO.getName());
         course.setCode(courseDTO.getCode());
 
