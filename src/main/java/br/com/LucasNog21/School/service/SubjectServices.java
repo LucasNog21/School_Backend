@@ -2,6 +2,7 @@ package br.com.LucasNog21.School.service;
 
 import br.com.LucasNog21.School.dto.SubjectDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
+import br.com.LucasNog21.School.mapper.SubjectMapper;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.model.Subject;
@@ -36,28 +37,30 @@ public class SubjectServices
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    SubjectMapper mapper;
+
 
     @Transactional
     public List<SubjectDTO> findAll() {
         logger.info("Encontrando todas as disciplinas!");
 
         List<Subject> subjects = subjectRepository.findAll();
-        return subjects.stream().map(SubjectDTO::new).toList();
+        return subjects.stream().map(mapper::subjectToSubjectDTO).toList();
     }
 
     @Transactional
     public SubjectDTO findById(Long id) {
         logger.info("Encontrando uma disciplina!");
         Subject subject = subjectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
-        return new SubjectDTO(subject);
+        return mapper.subjectToSubjectDTO(subject);
     }
 
 
     @Transactional
     public Subject create(SubjectDTO subjectDTO) {
         logger.info("Criando uma disciplina!");
-        Subject subject = new Subject();
-        subject.setCode(subjectDTO.getCode());
+        Subject subject = mapper.subjectDTOToSubject(subjectDTO);
 
         Course course = courseRepository.findById(subjectDTO.getCourse()).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
         subject.setCourse(course);
@@ -90,20 +93,11 @@ public class SubjectServices
         entity.setStudents(students);
 
 
-        Subject updated = subjectRepository.save(entity);
+        Subject updated = mapper.subjectDTOToSubject(subjectDTO);
+        updated.setId(entity.getId());
 
-        SubjectDTO updatedDTO = new SubjectDTO();
-        updatedDTO.setId(updated.getId());
-        updatedDTO.setCode(updated.getCode());
-        updatedDTO.setCourse(updated.getCourse().getId());
-        updatedDTO.setTeatchers(updated.getTeatchers().stream()
-                .map(Teatcher::getId)
-                .toList());
-        updatedDTO.setStudents(updated.getStudents().stream()
-                .map(Student::getId)
-                .toList());
-
-        return updatedDTO;
+        Subject saved = subjectRepository.save(updated);
+        return mapper.subjectToSubjectDTO(saved);
 
 
 
