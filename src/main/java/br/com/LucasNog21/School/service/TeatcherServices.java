@@ -3,6 +3,7 @@ package br.com.LucasNog21.School.service;
 import br.com.LucasNog21.School.dto.StudentDTO;
 import br.com.LucasNog21.School.dto.TeatcherDTO;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
+import br.com.LucasNog21.School.mapper.TeatcherMapper;
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.model.Teatcher;
 import br.com.LucasNog21.School.model.Subject;
@@ -28,34 +29,32 @@ public class TeatcherServices
     @Autowired
     SubjectRepository subjectRepository;
 
+    @Autowired
+    TeatcherMapper mapper;
+
     @Transactional
     public List<TeatcherDTO> findAll() {
         logger.info("Encontrando todos os professores!");
 
         List<Teatcher> teatchers = teatcherRepository.findAll();
-        return teatchers.stream().map(TeatcherDTO::new).toList();
+        return teatchers.stream().map(mapper::teatcherToTeatcherDTO).toList();
     }
 
     @Transactional
     public TeatcherDTO findById(Long id) {
         logger.info("Encontrando um professor!");
         Teatcher teatcher = teatcherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
-        TeatcherDTO teatcherDTO = new TeatcherDTO(teatcher);
-        return teatcherDTO;
+        return mapper.teatcherToTeatcherDTO(teatcher);
     }
 
 
     @Transactional
     public Teatcher create(TeatcherDTO teatcherDTO) {
         logger.info("Criando um professor!");
-        Teatcher teatcher = new Teatcher();
-        teatcher.setName(teatcherDTO.getName());
-        teatcher.setRegistration(teatcherDTO.getRegistration());
-
+        Teatcher teatcher = mapper.teatcherDTOToTeatcher(teatcherDTO);
 
         List<Subject> subjects = subjectRepository.findAllById(teatcherDTO.getSubjects());
         teatcher.setSubjects(subjects);
-
 
         return teatcherRepository.save(teatcher);
     }
@@ -68,22 +67,14 @@ public class TeatcherServices
         Teatcher entity = teatcherRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
-        entity.setName(teatcherDTO.getName());
-        entity.setRegistration(teatcherDTO.getRegistration());
         List<Subject> subjects = subjectRepository.findAllById(teatcherDTO.getSubjects());
         entity.setSubjects(subjects);
 
-        Teatcher updated = teatcherRepository.save(entity);
+        Teatcher updated = mapper.teatcherDTOToTeatcher(teatcherDTO);
+        updated.setId(entity.getId());
 
-        TeatcherDTO updatedDTO = new TeatcherDTO();
-        updatedDTO.setId(updated.getId());
-        updatedDTO.setName(updated.getName());
-        updatedDTO.setRegistration(updated.getRegistration());
-        updatedDTO.setSubjects(updated.getSubjects().stream()
-                .map(Subject::getId)
-                .toList());
-
-        return updatedDTO;
+        Teatcher saved = teatcherRepository.save(updated);
+        return mapper.teatcherToTeatcherDTO(saved);
 
 
 
@@ -102,14 +93,14 @@ public class TeatcherServices
     public List<TeatcherDTO> findBySubjects_Id(Long id) {
         logger.info("Buscando professores da disciplina com ID:" + id);
         List<Teatcher> teatchers = teatcherRepository.findBySubjects_Id(id);
-        return teatchers.stream().map(TeatcherDTO::new).toList();
+        return teatchers.stream().map(mapper::teatcherToTeatcherDTO).toList();
     }
 
     @Transactional
     public List<TeatcherDTO> findByNameContaining(String name) {
         logger.info("Buscando professores com o nome:" + name);
         List<Teatcher> teatchers = teatcherRepository.findByNameContaining(name);
-        return teatchers.stream().map(TeatcherDTO::new).toList();
+        return teatchers.stream().map(mapper::teatcherToTeatcherDTO).toList();
     }
 
 }
