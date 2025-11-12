@@ -1,6 +1,7 @@
 package br.com.LucasNog21.School.service;
 
 import br.com.LucasNog21.School.dto.CourseDTO;
+import br.com.LucasNog21.School.mapper.CourseMapper;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
 import br.com.LucasNog21.School.repository.CourseRepository;
@@ -21,34 +22,30 @@ public class CourseServices
     @Autowired
     CourseRepository courseRepository;
 
-
+    @Autowired
+    CourseMapper mapper;
 
     @Transactional
     public List<CourseDTO> findAll() {
         logger.info("Encontrando todos os cursos!");
 
         List<Course> courses = courseRepository.findAll();
-        return courses.stream().map(CourseDTO::new).toList();
+        return courses.stream().map(mapper::courseToCourseDTO).toList();
     }
 
     @Transactional
     public CourseDTO findById(Long id) {
         logger.info("Encontrando um curso!");
         Course course = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
-        CourseDTO courseDTO = new CourseDTO(course);
-        return courseDTO;
+        return mapper.courseToCourseDTO(course);
     }
 
 
     @Transactional
     public Course create(CourseDTO courseDTO) {
         logger.info("Criando um curso!");
-        Course course = new Course();
-        course.setName(courseDTO.getName());
-        course.setCode(courseDTO.getCode());
-
+        Course course = mapper.courseDTOToCourse(courseDTO);
         return courseRepository.save(course);
-
     }
 
 
@@ -59,17 +56,11 @@ public class CourseServices
         Course entity = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
-        entity.setName(courseDTO.getName());
-        entity.setCode(courseDTO.getCode());
+        Course updated = mapper.courseDTOToCourse(courseDTO);
+        updated.setId(entity.getId());
 
-        Course updated = courseRepository.save(entity);
-
-        CourseDTO updatedDTO = new CourseDTO();
-        updatedDTO.setId(updated.getId());
-        updatedDTO.setName(updated.getName());
-        updatedDTO.setCode(updated.getCode());
-
-        return updatedDTO;
+        Course saved = courseRepository.save(updated);
+        return mapper.courseToCourseDTO(saved);
 
     }
 
