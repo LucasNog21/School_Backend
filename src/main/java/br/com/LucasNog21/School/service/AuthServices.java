@@ -3,6 +3,7 @@ package br.com.LucasNog21.School.service;
 import br.com.LucasNog21.School.dto.security.AccountCredentialsDTO;
 import br.com.LucasNog21.School.dto.security.TokenDTO;
 import br.com.LucasNog21.School.exception.RequiredObjectIsNullException;
+import br.com.LucasNog21.School.mapper.UserMapper;
 import br.com.LucasNog21.School.model.security.User;
 import br.com.LucasNog21.School.repository.UserRepository;
 import br.com.LucasNog21.School.security.jwt.JwtTokenProvider;
@@ -25,6 +26,9 @@ import java.util.Map;
 public class AuthServices {
 
     Logger logger = LoggerFactory.getLogger(AuthServices.class);
+
+    @Autowired
+    UserMapper mapper;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -71,17 +75,15 @@ public class AuthServices {
         if (user == null) throw new RequiredObjectIsNullException();
 
         logger.info("Creating one new User!");
-        var entity = new User();
-        entity.setFullname(user.getFullname());
-        entity.setUsername(user.getUsername());
+        User entity = mapper.userDTOtoUser(user);
         entity.setPassword(generateHashedPassword(user.getPassword()));
         entity.setAccountNonExpired(true);
         entity.setAccountNonLocked(true);
         entity.setCredentialsNonExpired(true);
         entity.setEnabled(true);
 
-        var dto = repository.save(entity);
-        return new AccountCredentialsDTO(dto.getUsername(), dto.getPassword(), dto.getFullname());
+        User saved = repository.save(entity);
+        return mapper.userToUserDTO(saved);
     }
 
     private String generateHashedPassword(String password) {
