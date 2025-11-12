@@ -1,7 +1,9 @@
 package br.com.LucasNog21.School.service;
 
 import br.com.LucasNog21.School.dto.StudentDTO;
+import br.com.LucasNog21.School.exception.RequiredObjectIsNullException;
 import br.com.LucasNog21.School.exception.ResourceNotFoundException;
+import br.com.LucasNog21.School.mapper.StudentMapper;
 import br.com.LucasNog21.School.model.Course;
 import br.com.LucasNog21.School.model.Student;
 import br.com.LucasNog21.School.model.Subject;
@@ -23,6 +25,9 @@ public class StudentServices
     private Logger logger = Logger.getLogger(StudentServices.class.getName());
 
     @Autowired
+    StudentMapper mapper;
+
+    @Autowired
     StudentRepository studentRepository;
 
     @Autowired
@@ -36,24 +41,22 @@ public class StudentServices
         logger.info("Encontrando todos os alunos!");
 
         List<Student> students = studentRepository.findAll();
-        return students.stream().map(StudentDTO::new).toList();
+        return students.stream().map(mapper::studentToStudentDTO).toList();
     }
 
     @Transactional
     public StudentDTO findById(Long id) {
         logger.info("Encontrando um aluno!");
         Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem informações para esse Id!"));
-        StudentDTO studentDTO = new StudentDTO(student);
-        return studentDTO;
+        return mapper.studentToStudentDTO(student);
     }
 
 
     @Transactional
     public Student create(StudentDTO studentDTO) {
         logger.info("Criando um aluno!");
-        Student student = new Student();
-        student.setName(studentDTO.getName());
-        student.setRegistration(studentDTO.getRegistration());
+        if (studentDTO == null) throw new RequiredObjectIsNullException();
+        Student student = mapper.studentDTOToStudent(studentDTO);
 
         Course course = courseRepository.findById(studentDTO.getCourse()).orElseThrow(() -> new RuntimeException("Curso não encontrado"));
         student.setCourse(course);
@@ -73,29 +76,16 @@ public class StudentServices
         Student entity = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sem registros para esse Id!"));
 
-        entity.setName(studentDTO.getName());
-        entity.setRegistration(studentDTO.getRegistration());
+        Student updated = mapper.studentDTOToStudent(studentDTO);
+        updated.setId(entity.getId());
         Course course = courseRepository.findById(studentDTO.getCourse())
                 .orElseThrow(() -> new ResourceNotFoundException("Curso não encontrado!"));
         entity.setCourse(course);
         List<Subject> subjects = subjectRepository.findAllById(studentDTO.getSubjects());
         entity.setSubjects(subjects);
 
-        Student updated = studentRepository.save(entity);
-
-        StudentDTO updatedDTO = new StudentDTO();
-        updatedDTO.setId(updated.getId());
-        updatedDTO.setName(updated.getName());
-        updatedDTO.setRegistration(updated.getRegistration());
-        updatedDTO.setCourse(updated.getCourse().getId());
-        updatedDTO.setSubjects(updated.getSubjects().stream()
-                .map(Subject::getId)
-                .toList());
-
-        return updatedDTO;
-
-
-
+        Student saved = studentRepository.save(updated);
+        return mapper.studentToStudentDTO(saved);
     }
 
     @Transactional
@@ -111,13 +101,13 @@ public class StudentServices
     public List<StudentDTO> findByCourseId(Long courseId) {
         logger.info("Buscando alunos do curso com ID:" + courseId);
         List<Student> students = studentRepository.findByCourseId(courseId);
-        return students.stream().map(StudentDTO::new).toList();
+        return students.stream().map(mapper::studentToStudentDTO).toList();
     }
 
     @Transactional
     public List<StudentDTO> search(String name, String registration, Long course) {
         logger.info("Buscando alunos com matricula igual a: " + registration + " e nome igual a: " + name);
         List<Student> students = studentRepository.search(name, registration, course);
-        return students.stream().map(StudentDTO::new).toList();
+        return students.stream().map(mapper::studentToStudentDTO).toList();
     }
 }

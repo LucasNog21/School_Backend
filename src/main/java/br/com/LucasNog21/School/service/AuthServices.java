@@ -72,8 +72,8 @@ public class AuthServices {
 
         logger.info("Creating one new User!");
         var entity = new User();
-        entity.setFullName(user.getFullname());
-        entity.setUserName(user.getUsername());
+        entity.setFullname(user.getFullname());
+        entity.setUsername(user.getUsername());
         entity.setPassword(generateHashedPassword(user.getPassword()));
         entity.setAccountNonExpired(true);
         entity.setAccountNonLocked(true);
@@ -81,7 +81,7 @@ public class AuthServices {
         entity.setEnabled(true);
 
         var dto = repository.save(entity);
-        return new AccountCredentialsDTO(dto.getUsername(), dto.getPassword(), dto.getFullName());
+        return new AccountCredentialsDTO(dto.getUsername(), dto.getPassword(), dto.getFullname());
     }
 
     private String generateHashedPassword(String password) {
